@@ -25,3 +25,4 @@ Será responsável pela consulta de centros espíritas.
 - Integração com mapa utilizando o mapbox
 
 # GIF Ilustrativo
+![larespirita-mobile](https://user-images.githubusercontent.com/40447101/84617513-94f2d300-aea5-11ea-8f1d-c918c310b5a1.gif)
