@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import axios from 'axios';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 MapboxGL.setAccessToken('pk.eyJ1IjoiZ3VzdGF2b2JlbmUiLCJhIjoiY2tiZmszYjV3MHdiNTJybXVnbmRzYXM4dyJ9.l1WeraEe0RO-pw9GlZ-pXQ');
 
@@ -11,17 +12,26 @@ const House = () => {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
 
+    const page = useRoute();
+    const pageParams = page.params;
+
+    const navigation = useNavigation();
+
     useEffect(() => {
         axios.get('http://192.168.0.10:3333/house', {
             params: {
-                uf: 'MG',
-                city: 'Belo Horizonte',
+                uf: pageParams.uf,
+                city: pageParams.city,
             }
         })
             .then(response => setData(response.data))
             .catch(e => alert('Erro ao redenrizar os dados no mapa ' + e))
     }, []);
-    
+
+    const handleToDetail = id => {
+        navigation.navigate('Detail', {id: id});
+    }
+
     return (
         <View style={s.container}>
             <View style={s.content}>
@@ -39,14 +49,15 @@ const House = () => {
                 {data.map(item => {
                     return (
                         <MapboxGL.PointAnnotation
+                            onDeselected={() => {handleToDetail(item.id)}}
                             id={item.id.toString()}
                             coordinate={[item.longitude, item.latitude]}
                             key={item.id}
                         >
                             <View style={s.annotationContainer}>
-                                <View style={s.annotationFill} />
+                                <View style={s.annotationFill}/>
                             </View>
-                            <MapboxGL.Callout title={item.name} onSelected={() => {}}/>
+                            <MapboxGL.Callout title={item.name}/>
                         </MapboxGL.PointAnnotation>
                     )
                 })}
