@@ -68,11 +68,6 @@ const Detail = () => {
             </View>
 
             <View style={s.content}>
-                {/* <Text style={s.titleWeekday}>Segunda-feira</Text>
-                <View style={s.card}>
-                    <Text style={s.titleCard}>Segunda</Text>
-                    <Text style={s.descriptionCard}>Horário: 10:00</Text>
-                </View> */}
                 <FlatList data={data.activity} renderItem={(item) => {
                     return (
                         <>
